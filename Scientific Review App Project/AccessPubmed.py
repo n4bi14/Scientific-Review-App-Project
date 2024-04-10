@@ -36,6 +36,15 @@ class AccessPubmed:
                 print(total_count)
                 print(oaLink)
                 
+                if (total_count >= 40000 and count == 0):
+                    print("Your search results in " + total_count + " articles, you may want to add more terms or phrases to your search to narrow it down.")
+                    
+                    self.query = self.query + input("Please enter in other terms and phrases, if you would not like to add anymore just press ENTER: ")
+                    self.queryTerms = re.findall(r'[^"\s]+|"[^"]*"', self.query)
+                    
+                    oaLink = "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?term=" + self.query 
+                    count -= 1
+
                 article_ids.extend(new_article_ids)
                 
             else:
