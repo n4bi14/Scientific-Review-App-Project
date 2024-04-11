@@ -6,8 +6,6 @@ import csv
 import nltk
 from nltk.tokenize import word_tokenize
 
-nltk.download('punkt') 
-
 Entrez.email = "jacob.t.galyean@gmail.com"
 
 class AccessPubmed:
@@ -30,7 +28,7 @@ class AccessPubmed:
         print(oaLink)
         
         #While loop that determines how many times articles are retrieved, currently set to 10 for testing purposes.
-        while(count*1000 < total_count / 2 and count < 20):
+        while(count*1000 < total_count / 2 and count < 10):
             
             #Accesses the link using the requests module.
             result = requests.get(oaLink)
@@ -74,10 +72,7 @@ class AccessPubmed:
             pmcid_to_pmid_mapping = self.create_pmcid_to_pmid_mapping()
             
             for article in article_ids:
-                pubmed_article_ids.append(pmcid_to_pmid_mapping.get(article, 'Not Found'))
-                
-            print(article_ids[981])
-            print(pubmed_article_ids[981])            
+                pubmed_article_ids.append(pmcid_to_pmid_mapping.get(article, 'Not Found'))       
 
             self.extractInfo(pubmed_article_ids)
                
@@ -104,13 +99,14 @@ class AccessPubmed:
             fetchHandle.close()
             
     def checkValidity(self, abstract):
-        abstract_lower = abstract.lower()  # Normalize abstract to lowercase
-        query_terms_lower = [term.lower() for term in self.queryTerms]
+        #abstract_lower = abstract.lower()  # Normalize abstract to lowercase
+        #query_terms_lower = [term.lower() for term in self.queryTerms]
         
-        abstract_tokens = word_tokenize(abstract_lower)
+        #abstract_tokens = word_tokenize(abstract_lower)
         
-        for term in query_terms_lower:
-            if term in abstract_tokens:
+        for term in self.queryTerms:
+            if term in abstract:
+                print("NICE!")
                 return True
             
         return False
