@@ -22,47 +22,69 @@ class AccessPubmed:
     #Function to find articles from the Open Access Subset of Pubmed using the OA Web Service API.
     def findArticles(self):
         article_ids = []
+        pubmed_article_ids = []
         count = 0
         total_count = 9999
         #Get the link, combining what the user entered.
         oaLink = "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?term=" + self.query 
         print(oaLink)
         
-        while(count < 10):
+        #While loop that determines how many times articles are retrieved, currently set to 10 for testing purposes.
+        while(count*1000 < total_count / 2 and count < 20):
+            
+            #Accesses the link using the requests module.
             result = requests.get(oaLink)
         
+            #Checks if the result succeeds or not.
             if (result.status_code == 200):
+                
+                #Use the getArticleIds function in order to retrieve the following variables:
+                #   - new_article_ids: Article ids that have not been retrieved yet.
+                #   - total_count: The amount of articles the user's search results in.
+                #   - oaLink: The link that goes to the next set of article ids.
                 new_article_ids, total_count, oaLink = xml.getArticleIds(result.text)
                 print(total_count)
                 print(oaLink)
                 
-                if (total_count >= 40000 and count == 0):
-                    print("Your search results in " + total_count + " articles, you may want to add more terms or phrases to your search to narrow it down.")
-                    
-                    self.query = self.query + input("Please enter in other terms and phrases, if you would not like to add anymore just press ENTER: ")
-                    self.queryTerms = re.findall(r'[^"\s]+|"[^"]*"', self.query)
-                    
-                    oaLink = "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?term=" + self.query 
-                    count -= 1
-
                 article_ids.extend(new_article_ids)
                 
+                #Safeguard that allows the user to narrow down the search further by adding more terms if 40k articles or more are returned.
+                if (total_count >= 40000 and count == 0):
+                    print("Your search results in " + str(total_count) + " articles, you may want to add more terms or phrases to your search to narrow it down.")
+                    print("The more articles there are, the longer the process will be and the less accurate the results may be.")
+                    add_to_query = input("Please enter in other terms and phrases, if you would not like to add anymore just press ENTER: ")
+                    
+                    if (add_to_query != ""):
+                        #If they choose to add queries, update the varaibles and link.
+                        self.query = self.query + " " + add_to_query
+                        self.queryTerms = re.findall(r'[^"\s]+|"[^"]*"', self.query)
+                    
+                        oaLink = "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?term=" + self.query 
+                        count -= 1
+                        article_ids = []
+
+            #If there is an error in fetching the article ids, print the error.
             else:
                 print("Error:", result.status_code)
 
             count += 1
-            print(count)
-            
-        if article_ids:
+        
+        if len(article_ids) > 0:
+            #Change article_ids to go from a PMC id to a Pubmed id.
             pmcid_to_pmid_mapping = self.create_pmcid_to_pmid_mapping()
+            
             for article in article_ids:
-                article = pmcid_to_pmid_mapping[article]
+                pubmed_article_ids.append(pmcid_to_pmid_mapping.get(article, 'Not Found'))
+                
+            print(article_ids[981])
+            print(pubmed_article_ids[981])            
 
-            self.extractInfo(article_ids)
+            self.extractInfo(pubmed_article_ids)
                
         else:
             print("No article IDs found")
-               
+    
+            
     def extractInfo(self,article_ids):   
             fetchHandle=Entrez.efetch(db="pubmed",id=article_ids,rettype="null",retmode="xml")
             records = Entrez.read(fetchHandle)
@@ -76,7 +98,6 @@ class AccessPubmed:
                         abstract = article_data['Abstract']['AbstractText'][0]
 
                         if (self.checkValidity(abstract)):
-                            print("Passed!")
                             self.validArticles.append(record['MedlineCitation']['PMID'])
                             self.validArticleAbs.append(abstract)
             
@@ -90,7 +111,6 @@ class AccessPubmed:
         
         for term in query_terms_lower:
             if term in abstract_tokens:
-                print("NICE!")
                 return True
             
         return False
