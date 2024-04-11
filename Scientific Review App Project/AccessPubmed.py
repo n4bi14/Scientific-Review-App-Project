@@ -3,8 +3,6 @@ import requests
 from Bio import Entrez
 import ReadXML as xml
 import csv
-import nltk
-from nltk.tokenize import word_tokenize
 
 Entrez.email = "jacob.t.galyean@gmail.com"
 

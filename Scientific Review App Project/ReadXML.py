@@ -15,6 +15,8 @@ def getArticleIds(response):
     total_count = int(root.find('.//records').attrib.get('total-count') if root.find('.//records') else 0)
         
     return article_ids, total_count, resumption_link
-    
 
-    
+def cleanText(doc):
+    root = et.fromstring(doc)
+    notags = et.tostring(root, encoding='utf8', method='text')
+    print(notags)
