@@ -10,6 +10,7 @@ class AccessPubmed:
     def __init__(self, query):
         self.query = query
         self.queryTerms = re.findall(r'[^"\s]+|"[^"]*"', self.query)
+        self.article_ids = []
         self.validArticles = []
         self.validArticleAbs = []
         
@@ -17,7 +18,6 @@ class AccessPubmed:
         
     #Function to find articles from the Open Access Subset of Pubmed using the OA Web Service API.
     def findArticles(self):
-        article_ids = []
         pubmed_article_ids = []
         count = 0
         total_count = 9999
@@ -39,10 +39,9 @@ class AccessPubmed:
                 #   - total_count: The amount of articles the user's search results in.
                 #   - oaLink: The link that goes to the next set of article ids.
                 new_article_ids, total_count, oaLink = xml.getArticleIds(result.text)
-                print(total_count)
                 print(oaLink)
                 
-                article_ids.extend(new_article_ids)
+                self.article_ids.extend(new_article_ids)
                 
                 #Safeguard that allows the user to narrow down the search further by adding more terms if 40k articles or more are returned.
                 if (total_count >= 40000 and count == 0):
@@ -57,7 +56,7 @@ class AccessPubmed:
                     
                         oaLink = "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?term=" + self.query 
                         count -= 1
-                        article_ids = []
+                        self.article_ids = []
 
             #If there is an error in fetching the article ids, print the error.
             else:
@@ -65,11 +64,11 @@ class AccessPubmed:
 
             count += 1
         
-        if len(article_ids) > 0:
+        if len(self.article_ids) > 0:
             #Change article_ids to go from a PMC id to a Pubmed id.
             pmcid_to_pmid_mapping = self.create_pmcid_to_pmid_mapping()
             
-            for article in article_ids:
+            for article in self.article_ids:
                 pubmed_article_ids.append(pmcid_to_pmid_mapping.get(article, 'Not Found'))       
 
             self.extractInfo(pubmed_article_ids)
@@ -78,11 +77,13 @@ class AccessPubmed:
             print("No article IDs found")
     
             
-    def extractInfo(self,article_ids):   
+    def extractInfo(self,article_ids):
+            count = 0
             fetchHandle=Entrez.efetch(db="pubmed",id=article_ids,rettype="null",retmode="xml")
             records = Entrez.read(fetchHandle)
                 
             for record in records['PubmedArticle']:  # Loop through 'PubmedArticle' records
+                count += 1
                 
                 if 'MedlineCitation' in record and 'Article' in record['MedlineCitation']:
                     article_data = record['MedlineCitation']['Article']
@@ -91,7 +92,7 @@ class AccessPubmed:
                         abstract = article_data['Abstract']['AbstractText'][0]
 
                         if (self.checkValidity(abstract)):
-                            self.validArticles.append(record['MedlineCitation']['PMID'])
+                            self.validArticles.append(self.article_ids[count])
                             self.validArticleAbs.append(abstract)
             
             fetchHandle.close()
