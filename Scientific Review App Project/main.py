@@ -1,5 +1,5 @@
 from AccessPubmed import AccessPubmed
-import GetOpenAccess as oa
+import GetFullText as oa
 import random
 
 def main():
