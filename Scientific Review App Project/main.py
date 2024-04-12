@@ -16,6 +16,6 @@ def main():
     open_texts = oa.fetch_full_text_xml(chosenArticles)
     
     summaryGenerator = gemini.summaryGeneration()
-    summaryGenerator(open_texts)
+    summaryGenerator.generate_summaries(open_texts)
     
 main()
