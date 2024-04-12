@@ -35,4 +35,4 @@ def fetch_full_text_xml(pmc_id):
     
     handle.close()
     
-    return xml_data
+    return article_texts
