@@ -1,6 +1,7 @@
 from AccessPubmed import AccessPubmed
 import GetFullText as oa
 import random
+import summaryGeneration as gemini
 
 def main():
     chosenArticles = []
@@ -14,6 +15,7 @@ def main():
     
     open_texts = oa.fetch_full_text_xml(chosenArticles)
     
-    print(open_texts)
+    summaryGenerator = gemini.summaryGeneration()
+    summaryGenerator(open_texts)
     
 main()
