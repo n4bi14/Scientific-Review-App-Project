@@ -1,6 +1,5 @@
 import re
 from Bio import Entrez
-import ReadXML
 
 # Set your email address (required by Entrez)
 Entrez.email = "jacob.t.galyean@gmail.com"
