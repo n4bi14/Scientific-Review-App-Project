@@ -7,5 +7,4 @@ def main():
     
     accessPubmed.findArticles()
     
-    
 main()

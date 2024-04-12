@@ -104,7 +104,6 @@ class AccessPubmed:
         
         for term in self.queryTerms:
             if term in abstract:
-                print("NICE!")
                 return True
             
         return False

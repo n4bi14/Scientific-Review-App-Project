@@ -1,3 +1,4 @@
+import re
 from Bio import Entrez
 import ReadXML
 
@@ -5,19 +6,33 @@ import ReadXML
 Entrez.email = "jacob.t.galyean@gmail.com"
 
 def fetch_full_text_xml(pmc_id):
+    xml_str = ''
+    article_texts = []
+    
     handle = Entrez.efetch(db="pmc", id=pmc_id, rettype="full", retmode="xml")
     xml_data = Entrez.read(handle)
     
-    xml_body = xml_data[0]['body']
-    print(xml_body)
-    p_sections = xml_body['sec'][0]['p']
-    combined_text = ' '.join(p_sections)
+    for record in xml_data:
+        xml_str = ''
+        xml_body = record['body']['sec']
+    
+        for paragraph in xml_body:
+            xml_str += str(paragraph['p'])
 
-    # Replace special characters with their appropriate representations
-    xml_str_cleaned = combined_text.replace('\xa0', ' ')
-    print(xml_str_cleaned)
-    ReadXML.cleanText(xml_str_cleaned)
-
+        #Remove XML tags
+        clean_text = re.sub(r'<.*?>', '', xml_str)
+    
+        # Remove Unicode characters
+        clean_text = re.sub(r'\\xa0', ' ', clean_text)
+    
+        # Remove unwanted punctuation
+        clean_text = re.sub(r'[\[\]]', '', clean_text)
+    
+        # Remove leading and trailing whitespaces
+        clean_text = clean_text.strip()
+        
+        article_texts.append(clean_text)
+    
     handle.close()
     
     return xml_data

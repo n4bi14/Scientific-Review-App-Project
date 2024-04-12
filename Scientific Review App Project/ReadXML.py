@@ -18,6 +18,6 @@ def getArticleIds(response):
 
 def cleanText(doc):
     root = et.fromstring(doc)
-    notags = et.tostring(root, encoding='utf8', method='text')
+    notags = et.tostring(root, encoding='unicode', method='text')
     
     return notags
