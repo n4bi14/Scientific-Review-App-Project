@@ -14,6 +14,8 @@ def main():
        chosenArticles.append(random.choice(accessPubmed.validArticles))
     
     open_texts = oa.fetch_full_text_xml(chosenArticles)
-    print(open_texts)
+    
+    summaryGenerator = gemini.summaryGeneration()
+    summaryGenerator.generate_summaries(open_texts)
     
 main()
