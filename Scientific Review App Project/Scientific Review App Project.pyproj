@@ -23,7 +23,6 @@
   <ItemGroup>
     <Compile Include="AccessDatabase.py" />
     <Compile Include="AccessPubmed.py" />
-    <Compile Include="GetOpenAccess.py" />
     <Compile Include="main.py" />
     <Compile Include="ReadXML.py" />
   </ItemGroup>

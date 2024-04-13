@@ -11,11 +11,9 @@ def main():
     
     accessPubmed.findArticles()
     for i in range(0,100):
-        chosenArticles.append(random.choice(accessPubmed.article_ids))
+       chosenArticles.append(random.choice(accessPubmed.validArticles))
     
     open_texts = oa.fetch_full_text_xml(chosenArticles)
-    
-    summaryGenerator = gemini.summaryGeneration()
-    summaryGenerator(open_texts)
+    print(open_texts)
     
 main()

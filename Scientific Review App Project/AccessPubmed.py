@@ -91,13 +91,13 @@ class AccessPubmed:
                     if 'Abstract' in article_data:
                         abstract = article_data['Abstract']['AbstractText'][0]
 
-                        if (self.checkValidity(abstract)):
+                        if (self.checkAbstract(abstract)):
                             self.validArticles.append(self.article_ids[count])
                             self.validArticleAbs.append(abstract)
             
             fetchHandle.close()
             
-    def checkValidity(self, abstract):
+    def checkAbstract(self, abstract):
         #abstract_lower = abstract.lower()  # Normalize abstract to lowercase
         #query_terms_lower = [term.lower() for term in self.queryTerms]
         
