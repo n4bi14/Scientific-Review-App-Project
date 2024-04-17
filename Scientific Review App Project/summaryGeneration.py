@@ -1,6 +1,6 @@
 import os
 import google.generativeai as genai 
-from AccessPubmed import AccessPubmed
+from AccessPubmedOA import AccessPubmedOA
 
 # Set up API key and model
 os.environ["API_KEY"] = ""
