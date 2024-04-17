@@ -34,6 +34,8 @@ class AccessPubmedPM:
                 
                     if(count >= 100):
                        break
+                    
+        return self.valid_articles 
             
     def getArticleInfo(self,articles):
         fetchHandle=Entrez.efetch(db="pmc",id=articles,rettype="full",retmode="xml")

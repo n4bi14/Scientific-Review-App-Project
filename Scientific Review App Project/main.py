@@ -10,7 +10,7 @@ def main():
     user_query = input("Please enter in your keywords. If it includes a phrase, put quotation marks around the phrase: ")
     pm = AccessPubmedPM(user_query)
     
-    pm.findArticles()
+    chosen_articles = pm.findArticles()
     
     #for i in range(0,100):
        #chosenArticles.append(random.choice(accessPubmedOA.validArticles))
