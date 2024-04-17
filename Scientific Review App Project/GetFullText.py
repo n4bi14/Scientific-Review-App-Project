@@ -1,7 +1,10 @@
 import re
 from Bio import Entrez
 
-# Set your email address (required by Entrez)
+#Program Descritpion:
+#When provided the Pubmed Central (PMC) ids, this program is able to retrieve
+#the open access of all articles provided. It does this using E-Utilities.
+
 Entrez.email = "jacob.t.galyean@gmail.com"
 
 def fetch_full_text_xml(pmc_id):

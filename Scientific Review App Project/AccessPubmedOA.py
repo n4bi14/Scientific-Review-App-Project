@@ -4,6 +4,13 @@ from Bio import Entrez
 import ReadXML as xml
 import csv
 
+#Program Description:
+#Allows the access of articles via the OA Web Service. This method returns only open access articles, at the cost of not
+#being pre-relevance scored, returning any article that contains even one instance of each of the user's terms.
+
+#After using the OA Web Service, it converts the PMC id to Pubmed ID and then asks E-Utilities for the abstract, 
+#filters out the articles that don't have one of the user's terms in it's abstract, and then stores the 'valid articles'.
+
 Entrez.email = "jacob.t.galyean@gmail.com"
 
 class AccessPubmed:

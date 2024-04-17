@@ -1,4 +1,4 @@
-from AccessPubmed import AccessPubmed
+from AccessPubmedOA import OA
 import GetFullText as oa
 import random
 import summaryGeneration as gemini
@@ -7,11 +7,11 @@ def main():
     chosenArticles = []
 
     user_query = input("Please enter in your keywords. If it includes a phrase, put quotation marks around the phrase: ")
-    accessPubmed = AccessPubmed(user_query)
+    accessPubmedOA = OA(user_query)
     
-    accessPubmed.findArticles()
+    accessPubmedOA.findArticles()
     for i in range(0,100):
-       chosenArticles.append(random.choice(accessPubmed.validArticles))
+       chosenArticles.append(random.choice(accessPubmedOA.validArticles))
     
     open_texts = oa.fetch_full_text_xml(chosenArticles)
     
