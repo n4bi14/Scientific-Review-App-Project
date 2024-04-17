@@ -1,4 +1,4 @@
-from AccessPubmedOA import OA
+from AccessPubmedOA import AccessPubmedOA
 import GetFullText as oa
 import random
 import summaryGeneration as gemini
@@ -7,7 +7,7 @@ def main():
     chosenArticles = []
 
     user_query = input("Please enter in your keywords. If it includes a phrase, put quotation marks around the phrase: ")
-    accessPubmedOA = OA(user_query)
+    accessPubmedOA = AccessPubmedOA(user_query)
     
     accessPubmedOA.findArticles()
     for i in range(0,100):

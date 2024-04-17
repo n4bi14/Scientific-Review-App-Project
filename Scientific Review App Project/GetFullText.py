@@ -7,7 +7,7 @@ from Bio import Entrez
 
 Entrez.email = "jacob.t.galyean@gmail.com"
 
-def fetch_full_text_xml(pmc_id):
+def fetch_full_text_xml_multiple(pmc_id):
     xml_str = ''
     article_texts = []
     

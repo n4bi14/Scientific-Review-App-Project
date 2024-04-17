@@ -13,7 +13,7 @@ import csv
 
 Entrez.email = "jacob.t.galyean@gmail.com"
 
-class AccessPubmed:
+class AccessPubmedOA:
     def __init__(self, query):
         self.query = query
         self.queryTerms = re.findall(r'[^"\s]+|"[^"]*"', self.query)
@@ -105,11 +105,6 @@ class AccessPubmed:
             fetchHandle.close()
             
     def checkAbstract(self, abstract):
-        #abstract_lower = abstract.lower()  # Normalize abstract to lowercase
-        #query_terms_lower = [term.lower() for term in self.queryTerms]
-        
-        #abstract_tokens = word_tokenize(abstract_lower)
-        
         for term in self.queryTerms:
             if term in abstract:
                 return True
