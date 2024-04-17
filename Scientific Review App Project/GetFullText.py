@@ -12,7 +12,8 @@ def fetch_full_text_xml_single(xml_body):
     article_text = []
     
     for paragraph in xml_body:
-        xml_str += str(paragraph['p'])
+        if('p' in paragraph):
+            xml_str += str(paragraph['p'])
 
     #Remove XML tags
     clean_text = re.sub(r'<.*?>', '', xml_str)

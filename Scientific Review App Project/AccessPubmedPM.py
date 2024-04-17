@@ -28,7 +28,7 @@ class AccessPubmedPM:
             
             if('body' in record):
                 if('sec' in record['body']):
-                    article_text = full_text.fetch_full_text_xml_single(record['body'])
+                    article_text = full_text.fetch_full_text_xml_single(record['body']['sec'])
                     self.valid_articles.append(article_text)
                     ++count
                 
