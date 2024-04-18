@@ -1,7 +1,7 @@
 from AccessPubmedOA import AccessPubmedOA
 from AccessPubmedPM import AccessPubmedPM
 import GetFullText as oa
-import summaryGeneration as gemini
+import SummaryGeneration as gemini
 
 def main():
     chosenArticles = []
