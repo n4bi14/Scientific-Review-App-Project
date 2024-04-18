@@ -1,7 +1,6 @@
 from AccessPubmedOA import AccessPubmedOA
 from AccessPubmedPM import AccessPubmedPM
 import GetFullText as oa
-import random
 import SummaryGeneration as gemini
 
 def main():
@@ -12,12 +11,11 @@ def main():
     
     chosen_articles = pm.findArticles()
     
-    #for i in range(0,100):
-       #chosenArticles.append(random.choice(accessPubmedOA.validArticles))
+    chosenArticles.append(chosen_articles) 
     
-    #open_texts = oa.fetch_full_text_xml(chosenArticles)
+    open_texts = oa.fetch_full_text_xml_single(chosenArticles)
     
-    #summaryGenerator = gemini.summaryGeneration()
-    #summaryGenerator.generate_summaries(open_texts)
+    summaryGenerator = gemini.SummaryGeneration()
+    summaryGenerator.generate_summaries(open_texts)
     
 main()
