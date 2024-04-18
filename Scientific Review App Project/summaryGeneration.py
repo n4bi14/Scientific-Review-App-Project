@@ -3,7 +3,7 @@ import google.generativeai as genai
 from AccessPubmedOA import AccessPubmedOA
 
 # Set up API key and model
-os.environ["API_KEY"] = ""
+os.environ["API_KEY"] = "AIzaSyB2ilzpxmKNbJbKrlHCWd15OAJjJkJ_vJk"
 genai.configure(api_key=os.environ["API_KEY"])
 model = genai.GenerativeModel('gemini-pro')
 
