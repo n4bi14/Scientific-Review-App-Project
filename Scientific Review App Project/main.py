@@ -11,7 +11,11 @@ def main():
     
     chosen_articles = pm.findArticles()
     
-    summaryGenerator = gemini.summaryGeneration()
-    summaryGenerator.generate_summaries(chosen_articles)
+    chosenArticles.append((AccessPubmedOA.validArticles))
+    
+    open_texts = oa.fetch_full_text_xml_single(chosenArticles)
+    
+    summaryGenerator = gemini.SummaryGeneration()
+    summaryGenerator.generate_summaries(open_texts)
     
 main()
