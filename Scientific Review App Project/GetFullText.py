@@ -9,7 +9,6 @@ Entrez.email = "jacob.t.galyean@gmail.com"
 
 def fetch_full_text_xml_single(xml_body):
     xml_str = ''
-    article_text = []
     
     for paragraph in xml_body:
         if('p' in paragraph):
@@ -26,7 +25,5 @@ def fetch_full_text_xml_single(xml_body):
     
     # Remove leading and trailing whitespaces
     clean_text = clean_text.strip()
-        
-    article_text.append(clean_text)
     
-    return article_text
+    return clean_text
