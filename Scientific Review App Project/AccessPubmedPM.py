@@ -35,8 +35,10 @@ class AccessPubmedPM:
             
             if('body' in record):
                 if('sec' in record['body']):
+                    article_title = record['front']['article-meta']['title-group']['article-title']
                     article_text = full_text.fetch_full_text_xml_single(record['body']['sec'])
-                    self.valid_articles.append(article_text)
+                    
+                    self.valid_articles.append('Title: ' + article_title + 'Body:' + article_text)
                     count += 1
                 
                     if(count >= 100):

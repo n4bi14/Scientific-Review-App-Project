@@ -22,7 +22,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AccessDatabase.py" />
-    <Compile Include="AccessPubmedOA.py" />
     <Compile Include="AccessPubmedPM.py" />
     <Compile Include="main.py" />
     <Compile Include="ReadXML.py" />
