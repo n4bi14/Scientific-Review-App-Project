@@ -7,7 +7,7 @@ import csv
 #This method allows the use of Pubmed's relevance scoring system, which is beneficial
 #in identifying articles that are relevant to the user's search.
 
-Entrez.email = "jacobg2071@gmail.com"
+Entrez.email = "jacob.t.galyean@gmail.com"
 
 class AccessPubmedPM:
     
